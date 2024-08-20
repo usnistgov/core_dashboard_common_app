@@ -1,5 +1,6 @@
 """ Common views
 """
+
 import copy
 import math
 

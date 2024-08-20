@@ -1,6 +1,7 @@
 """
 Common Forms
 """
+
 from django import forms
 
 from core_main_app.components.user import api as user_api

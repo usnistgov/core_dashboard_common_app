@@ -2,7 +2,6 @@
 FIXME: temporary solution, need to update the template and constant system to deal with singular/plural
 """
 
-
 from django import template
 
 register = template.Library()

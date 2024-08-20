@@ -1,6 +1,7 @@
 """
     User Dashboard constants
 """
+
 from enum import Enum
 
 from core_main_app.utils.labels import get_form_label, get_data_label

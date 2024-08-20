@@ -1,5 +1,6 @@
 """ Test ajax views
 """
+
 from unittest.case import TestCase
 from unittest.mock import patch
 
