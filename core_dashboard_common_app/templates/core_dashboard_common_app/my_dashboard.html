@@ -2,13 +2,21 @@
 {% load special_plural %}
 
 {% block box_title %}
-        {% if data.title %}
-            <h1>{{data.title}}</h1>
+    {% if data.title %}
+        <h1>{{data.title}}</h1>
+    {% else %}
+        {% if come_from_admin %}
+            <span>{{ data.document|special_plural|capfirst}} list</span>
         {% else %}
-            {% if come_from_admin %} {{ data.document|special_plural|capfirst}} list {% else %} My {{data.document|special_plural}} {% endif %}
+            <span style="font-size: 2rem">My {{data.document|special_plural}}</span>
         {% endif %}
+        {% if data.user_data %}
+        <span style="background-color: #10309a !important; font-size: 1rem; position: absolute;margin-top: 0.75rem;margin-left: 0.55rem;" class="badge bg-primary">
+            {{ data.number_total }} items
+        </span>
+        {% endif %}
+    {% endif %}
 {% endblock %}
-
 
 {% block box_tools %}
     {% if data.create_workspace %}
@@ -24,12 +32,7 @@
     {% endif %}
 {% endblock %}
 
-
 {% block box_body %}
-{% if data.user_data %}
-    Total number of {{data.document|special_plural}}: {{ data.number_total }}
-{% endif %}
-
 {% if data.menu and not data.title %}
 <div class="dropdown" id="id_actions" style="display:none">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" {% if BOOTSTRAP_VERSION|first == "4" %}data-toggle{% elif BOOTSTRAP_VERSION|first == "5"  %}data-bs-toggle{% endif %}="dropdown" aria-haspopup="true" aria-expanded="true">

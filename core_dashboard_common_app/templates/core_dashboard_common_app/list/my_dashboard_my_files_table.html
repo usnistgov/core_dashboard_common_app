@@ -1,11 +1,31 @@
 {% load dict_key_extras %}
 
+{% comment %}
 <div class="btn-group {% if BOOTSTRAP_VERSION|first == "4" %}float-right{% elif BOOTSTRAP_VERSION|first == "5" %}float-end{% endif %}">
 	<a class="btn btn-secondary" id="upload-blob-btn">
         <i class="fas fa-upload"></i> Upload File
     </a>
 </div>
-<br/><br/>
+{% endcomment %}
+
+<div class="{% if BOOTSTRAP_VERSION|first == "4" %}float-right{% elif BOOTSTRAP_VERSION|first == "5" %}float-end{% endif %}">
+    <div id="drop-box">
+        <i class="fas fa-cloud-arrow-up"></i>
+        <p>Drag and drop file here, or</p>
+        <label class="btn btn-link" for="id_file">
+            Browse file
+        </label>
+
+        <form style="display: none" id="file-upload-form" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                {{ data.file_upload_form }}
+            </div>>
+        </form>
+    </div>
+</div>
+
+<hr style="border-bottom: 2px solid black;display: inline-block;margin: 0;width: 100%;"/>
 
 <table class="table table-bordered table-striped table-hover">
     <thead>

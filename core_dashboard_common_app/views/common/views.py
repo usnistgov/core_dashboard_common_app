@@ -556,7 +556,6 @@ class DashboardFiles(CommonView):
 
         modals = [
             "core_main_app/user/workspaces/list/modals/assign_workspace.html",
-            "core_main_app/user/blob/list/modals/file_upload.html",
             dashboard_constants.MODALS_COMMON_DELETE,
             dashboard_constants.MODALS_COMMON_CHANGE_OWNER,
         ]

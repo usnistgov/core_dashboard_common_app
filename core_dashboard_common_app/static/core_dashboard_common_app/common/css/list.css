@@ -1,3 +1,48 @@
 #id_actions {
     padding: 0.5em;
 }
+
+#drop-box {
+  font-size: 1.4rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  border: 3px dotted #a3a3a3;
+  border-radius: 5px;
+  margin: 0;
+  padding: 0.2rem 3rem;
+  width: 100%;
+}
+
+#drop-box p {
+  margin: 0 0.5rem;
+}
+
+#drop-box .btn {
+  font-size: 1.4rem;
+  margin: 0;
+  padding: 0;
+}
+
+#drop-box.dragover {
+  border: 3px dotted #333;
+  background-color: #eee;
+}
+
+.form input {
+  margin: 10px 0;
+  width: 100%;
+  background-color: #e2e2e2;
+  border: none;
+  outline: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+}
+
+.box-title {
+  line-height: 3rem !important;
+  float: left !important;
+  margin-bottom: 0 !important;
+}
