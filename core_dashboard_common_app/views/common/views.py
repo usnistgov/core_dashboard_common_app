@@ -89,6 +89,7 @@ def my_profile(request):
         context={
             "page_title": "My Profile",
             "ENABLE_SAML2_SSO_AUTH": conf_settings.ENABLE_SAML2_SSO_AUTH,
+            "ENABLE_ALLAUTH": conf_settings.ENABLE_ALLAUTH,
         },
     )
 

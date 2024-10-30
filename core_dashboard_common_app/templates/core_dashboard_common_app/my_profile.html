@@ -7,10 +7,14 @@
 	<a class="btn btn-secondary" onclick=" href='{% url 'core_main_set_timezone' %}'">
         <i class="fas fa-globe"></i> Preferences
     </a>
+    {% if data.ENABLE_ALLAUTH %}
+	<a class="btn btn-secondary" onclick=" href='{% url 'account_email' %}'">
+        <i class="fas fa-lock"></i> Edit Profile
+    </a>
+    {% else %}
     <a class="btn btn-secondary" onclick=" href='{% url 'core_dashboard_profile_edit' %}'">
         <i class="fas fa-edit"></i> Edit Profile
     </a>
-    {% if not data.ENABLE_SAML2_SSO_AUTH %}
 	<a class="btn btn-secondary" onclick=" href='{% url 'password_change' %}'">
         <i class="fas fa-lock"></i> Change Password
     </a>
