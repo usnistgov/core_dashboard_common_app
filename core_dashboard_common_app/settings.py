@@ -38,3 +38,15 @@ QUERY_PER_PAGE_PAGINATION = getattr(
 
 # Set Workspace public
 CAN_SET_WORKSPACE_PUBLIC = getattr(settings, "CAN_SET_WORKSPACE_PUBLIC", True)
+
+ENABLE_ALLAUTH = getattr(settings, "ENABLE_ALLAUTH", False)
+""" :py:class:`bool`: Enable Django allauth Authentication
+"""
+
+SOCIALACCOUNT_ONLY = getattr(settings, "SOCIALACCOUNT_ONLY", False)
+""" :py:class:`bool`: Allauth SOCIALACCOUNT_ONLY
+"""
+
+ENABLE_SAML2_SSO_AUTH = getattr(settings, "ENABLE_SAML2_SSO_AUTH", False)
+""" :py:class:`bool`: Enable SAML2 SSO Authentication
+"""

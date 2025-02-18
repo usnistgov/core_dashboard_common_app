@@ -88,8 +88,9 @@ def my_profile(request):
         dashboard_constants.DASHBOARD_PROFILE_TEMPLATE,
         context={
             "page_title": "My Profile",
-            "ENABLE_SAML2_SSO_AUTH": conf_settings.ENABLE_SAML2_SSO_AUTH,
-            "ENABLE_ALLAUTH": conf_settings.ENABLE_ALLAUTH,
+            "ENABLE_SAML2_SSO_AUTH": settings.ENABLE_SAML2_SSO_AUTH,
+            "ENABLE_ALLAUTH": settings.ENABLE_ALLAUTH,
+            "SOCIALACCOUNT_ONLY": settings.SOCIALACCOUNT_ONLY,
         },
     )
 

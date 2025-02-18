@@ -8,9 +8,15 @@
         <i class="fas fa-globe"></i> Preferences
     </a>
     {% if data.ENABLE_ALLAUTH %}
-	<a class="btn btn-secondary" onclick=" href='{% url 'account_email' %}'">
-        <i class="fas fa-lock"></i> Edit Profile
-    </a>
+        {% if data.SOCIALACCOUNT_ONLY %}
+            <a class="btn btn-secondary" onclick=" href='{% url 'socialaccount_connections' %}'">
+                <i class="fas fa-lock"></i> Edit Profile
+            </a>
+        {% else %}
+            <a class="btn btn-secondary" onclick=" href='{% url 'account_email' %}'">
+                <i class="fas fa-lock"></i> Edit Profile
+            </a>
+        {% endif %}
     {% else %}
     <a class="btn btn-secondary" onclick=" href='{% url 'core_dashboard_profile_edit' %}'">
         <i class="fas fa-edit"></i> Edit Profile
