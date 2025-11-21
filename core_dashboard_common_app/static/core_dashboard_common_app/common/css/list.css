@@ -9,7 +9,8 @@
   align-items: center;
   align-content: center;
   justify-content: center;
-  border: 3px dotted #a3a3a3;
+  border: 2px dashed #555;
+  background-color: #eee;
   border-radius: 5px;
   margin: 0;
   padding: 0.2rem 3rem;
@@ -27,8 +28,7 @@
 }
 
 #drop-box.dragover {
-  border: 3px dotted #333;
-  background-color: #eee;
+  background-color: #fff0;
 }
 
 .form input {
@@ -45,4 +45,11 @@
   line-height: 3rem !important;
   float: left !important;
   margin-bottom: 0 !important;
+}
+
+.item-count-badge {
+  font-size: 1rem;
+  position: absolute;
+  margin-top: 0.75rem;
+  margin-left: 0.55rem;
 }

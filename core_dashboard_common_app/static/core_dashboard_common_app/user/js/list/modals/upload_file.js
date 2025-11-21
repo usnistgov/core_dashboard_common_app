@@ -20,10 +20,19 @@ $(document).ready(function() {
         $(dropBoxId).removeClass("dragover");
 
         const transferedFiles = event.originalEvent.dataTransfer.files;
-        $fileInput.prop("files", transferedFiles);
-        $fileName.text(transferedFiles[0].name);
 
-        uploadFile();
+        // Iterate over the transferedFiles and upload each file
+        Array.from(transferedFiles).forEach((file, _) => {
+            const fileList = new DataTransfer();
+            fileList.items.add(file);
+
+            // Populate the form with the correct items
+            $fileInput.prop("files", fileList.files);
+            $fileName.text(file.name);
+
+            // Upload the current file
+            uploadFile();
+        });
     });
 
     $fileInput.on("change", function (event) {
