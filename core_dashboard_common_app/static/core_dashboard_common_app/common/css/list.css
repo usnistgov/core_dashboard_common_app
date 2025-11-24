@@ -3,7 +3,7 @@
 }
 
 #drop-box {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -13,7 +13,7 @@
   background-color: #eee;
   border-radius: 5px;
   margin: 0;
-  padding: 0.2rem 3rem;
+  padding: 0.2rem 2rem;
   width: 100%;
 }
 
@@ -22,7 +22,7 @@
 }
 
 #drop-box .btn {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   margin: 0;
   padding: 0;
 }

@@ -22,7 +22,7 @@ $(document).ready(function() {
         const transferedFiles = event.originalEvent.dataTransfer.files;
 
         // Iterate over the transferedFiles and upload each file
-        Array.from(transferedFiles).forEach((file, _) => {
+        Array.from(transferedFiles).forEach((file, index) => {
             const fileList = new DataTransfer();
             fileList.items.add(file);
 
@@ -31,18 +31,18 @@ $(document).ready(function() {
             $fileName.text(file.name);
 
             // Upload the current file
-            uploadFile();
+            uploadFile(index === transferedFiles.length - 1);
         });
     });
 
     $fileInput.on("change", function (event) {
-        uploadFile()
+        uploadFile(true)
     })
 
     /**
      * Initiates the file upload process using AJAX.
      */
-    function uploadFile() {
+    function uploadFile(reload = false) {
         const formData = new FormData($("#file-upload-form")[0]);
 
         $.ajax({
@@ -52,8 +52,10 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             data: formData,
-            success: function (_) {
-                location.reload();
+            success: function() {
+                if (reload) {
+                    location.reload();
+                }
             },
             error: function (data) {
                 let error_message;
