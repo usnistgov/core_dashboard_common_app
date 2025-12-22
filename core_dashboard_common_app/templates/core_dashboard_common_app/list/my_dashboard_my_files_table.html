@@ -1,14 +1,23 @@
 {% load dict_key_extras %}
 
-{% comment %}
-<div class="btn-group {% if BOOTSTRAP_VERSION|first == "4" %}float-right{% elif BOOTSTRAP_VERSION|first == "5" %}float-end{% endif %}">
-	<a class="btn btn-secondary" id="upload-blob-btn">
-        <i class="fas fa-upload"></i> Upload File
-    </a>
-</div>
-{% endcomment %}
+<div class="{% if BOOTSTRAP_VERSION|first == "4" %}float-right{% elif BOOTSTRAP_VERSION|first == "5" %}float-end{% endif %} d-flex flex-row" style="height: 2.5rem">
+    <div id="upload-status">
+        <div id="upload-data-alert-box" class="alert alert-warning upload-alert hidden">
+            <i class="fa fa-spinner fa-spin-pulse"></i> Uploading files...
+        </div>
+        {% if data.recently_uploaded_files %}
+            {% if data.recently_uploaded_files.status == "success" %}
+                <div class="alert alert-success upload-alert">
+                    <i class="fa fa-check"></i> All files uploaded. <a href="#" id="open-upload-results-modal" class="alert-link">Click here for more information</a>
+                </div>
+            {% else %}
+                <div class="alert alert-danger upload-alert">
+                    <i class="fa fa-check"></i> Errors occured during file upload. <a href="#" id="open-upload-results-modal" class="alert-link">Click here for more information</a>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
 
-<div class="{% if BOOTSTRAP_VERSION|first == "4" %}float-right{% elif BOOTSTRAP_VERSION|first == "5" %}float-end{% endif %}">
     <div id="drop-box">
         <i class="fas fa-cloud-arrow-up"></i>
         <p>Drag and drop files here, or</p>
@@ -20,7 +29,7 @@
             {% csrf_token %}
             <div class="input-group">
                 {{ data.file_upload_form }}
-            </div>>
+            </div>
         </form>
     </div>
 </div>

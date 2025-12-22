@@ -1,0 +1,34 @@
+{% extends 'core_main_app/_render/admin/theme/tools/modal.html' %}
+
+{% block modal_id %}upload-results-modal{% endblock %}
+{% block modal_title %}Recently uploaded files{% endblock %}
+
+
+{% block modal_body %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Filename</th>
+            <th>Status</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file_data in data.recently_uploaded_files.file_list %}
+        <tr class="{% if file_data.status == "success" %}table-success{% else %}table-danger{% endif %}">
+            <td>{{ file_data.filename }}</td>
+            <td><i class="fa {% if file_data.status == "success" %}fa-check-circle{% else %}fa-xmark-circle{% endif %}"></i></td>
+            <td>{{ file_data.notes }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block modal_footer %}
+<a class="btn btn-secondary pull-left"
+   {% if BOOTSTRAP_VERSION|first == "4" %}data-dismiss{% elif BOOTSTRAP_VERSION|first == "5"  %}data-bs-dismiss{% endif %}="modal"
+   href="#">
+    <i class="fas fa-times"></i> Close
+</a>
+{% endblock %}

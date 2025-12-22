@@ -540,7 +540,13 @@ class DashboardFiles(CommonView):
                 files.count(),
                 settings.FILE_PER_PAGE_PAGINATION,
             ),
+            "recently_uploaded_files": request.session.get(
+                "upload_report", None
+            ),
         }
+
+        if "upload_report" in request.session:
+            del request.session["upload_report"]
 
         if self.administration:
             context.update(
@@ -558,6 +564,7 @@ class DashboardFiles(CommonView):
             "core_main_app/user/workspaces/list/modals/assign_workspace.html",
             dashboard_constants.MODALS_COMMON_DELETE,
             dashboard_constants.MODALS_COMMON_CHANGE_OWNER,
+            "core_dashboard_common_app/list/modals/upload-results.html",
         ]
 
         assets = {
@@ -593,6 +600,10 @@ class DashboardFiles(CommonView):
                 },
                 {
                     "path": "core_dashboard_common_app/common/js/init_pagination.js",
+                    "is_raw": False,
+                },
+                {
+                    "path": "core_dashboard_common_app/user/js/list/modals/upload-results.js",
                     "is_raw": False,
                 },
             ],
