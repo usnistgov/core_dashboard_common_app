@@ -3,7 +3,7 @@ $(document).ready(function(){
         $(this).closest("." + $(this).attr("data-hide")).hide(200);
     });
 
-    // Change hash for page-reload 
+    // Change hash for page-reload
     $('.nav-tabs a').on('shown.bs.tab', function (e) {
         window.location.hash = e.target.hash;
     });

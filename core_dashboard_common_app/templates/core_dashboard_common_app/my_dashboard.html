@@ -3,7 +3,7 @@
 
 {% block box_title %}
     {% if data.title %}
-        <h1>{{data.title}}</h1>
+        {{data.title}}
     {% else %}
         {% if come_from_admin %}
             <span>{{ data.document|special_plural|capfirst}} list</span>
