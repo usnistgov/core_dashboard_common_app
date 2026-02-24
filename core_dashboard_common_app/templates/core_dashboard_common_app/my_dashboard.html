@@ -6,9 +6,9 @@
         {{data.title}}
     {% else %}
         {% if come_from_admin %}
-            <span>{{ data.document|special_plural|capfirst}} list</span>
+            <span>{{ data.document_name|special_plural|capfirst}} list</span>
         {% else %}
-            <span style="font-size: 2rem">My {{data.document|special_plural}}</span>
+            <span style="font-size: 2rem">My {{data.document_name|special_plural}}</span>
         {% endif %}
         {% if data.user_data %}
         <span style="background-color: #9a4c10 !important" class="badge bg-primary item-count-badge">
@@ -48,7 +48,7 @@
 {% endif %}
 
 <div class="tab-content">
-    {% include data.template with objects=data.user_data group='user' count=data.number_total tabs=data.tabs document=data.document%}
+    {% include data.template with objects=data.user_data group='user' count=data.number_total tabs=data.tabs document_type=data.document_type document_name=data.document_name%}
 </div>
 {% endblock %}
 

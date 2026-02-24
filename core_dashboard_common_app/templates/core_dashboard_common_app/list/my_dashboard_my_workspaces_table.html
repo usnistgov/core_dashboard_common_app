@@ -20,13 +20,13 @@
                 <td>{{ object.is_public }} </td>
                 <td>
                     {% if come_from_admin %}
-                        <a class="btn btn-secondary view-data-{{data.document}}-btn"
+                        <a class="btn btn-secondary view-data-{{data.document_type}}-btn"
                            objectid="{{ object.workspace.id }}"
                            href="{% url 'core-admin:core_dashboard_workspace_list' object.workspace.id %}">
                             <i class="fas fa-list"></i> View Content
                         </a>
                     {% else %}
-                        <a class="btn btn-secondary view-data-{{data.document}}-btn"
+                        <a class="btn btn-secondary view-data-{{data.document_type}}-btn"
                            objectid="{{ object.workspace.id }}"
                            href="{% url 'core_dashboard_workspace_list' object.workspace.id %}">
                             <i class="fas fa-list"></i> View Content
@@ -47,11 +47,11 @@
                         {% endif %}
                         {% if not object.is_global %}
                             {% if object.is_public %}
-                                <a class="btn btn-secondary private-{{data.document}}-btn">
+                                <a class="btn btn-secondary private-{{data.document_type}}-btn">
                                     <i class="fas fa-user"></i> Set private
                                 </a>
                             {% elif data.can_set_public %}
-                                <a class="btn btn-secondary public-{{data.document}}-btn">
+                                <a class="btn btn-secondary public-{{data.document_type}}-btn">
                                     <i class="fas fa-users"></i> Set public
                                 </a>
                             {% endif %}
@@ -67,7 +67,7 @@
         {% empty %}
             <tr>
                 <td class="empty" style="text-align: center;" colspan="100%">
-                     No {{document}} found.
+                     No {{document_name}} found.
                 </td>
             </tr>
         {% endfor %}

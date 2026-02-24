@@ -27,13 +27,13 @@
                     </a>
                     {% else %}
                         {% if come_from_admin %}
-                            <a class="btn btn-secondary view-{{data.document}}-btn" href="{% url 'core-admin:core_composer_app_manage_type_versions' object.type_version.id %}">
+                            <a class="btn btn-secondary view-{{data.document_type}}-btn" href="{% url 'core-admin:core_composer_app_manage_type_versions' object.type_version.id %}">
                                 <i class="fas fa-list"></i> Versions
                             </a>
                             {% url 'core-admin:core_dashboard_app_edit_type' object.type_version.id as edit_url %}
                             {% include 'core_main_app/common/buttons/edit.html' %}
                         {% else %}
-                            <a class="btn btn-secondary view-{{data.document}}-btn" href="{% url 'core_composer_app_manage_type_versions' object.type_version.id %}">
+                            <a class="btn btn-secondary view-{{data.document_type}}-btn" href="{% url 'core_composer_app_manage_type_versions' object.type_version.id %}">
                                 <i class="fas fa-list"></i> Versions
                             </a>
                             {% url 'core_dashboard_app_edit_type' object.type_version.id as edit_url %}
@@ -48,7 +48,7 @@
         {% empty %}
             <tr>
                 <td class="empty" style="text-align: center;" colspan="100%">
-                     No {{document}} found.
+                     No {{document_name}} found.
                 </td>
             </tr>
         {% endfor %}

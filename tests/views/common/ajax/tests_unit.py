@@ -4,8 +4,14 @@
 from unittest import TestCase
 from unittest.mock import patch, Mock, MagicMock
 
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import (
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseServerError,
+    QueryDict,
+)
 
+from core_dashboard_common_app import constants
 from core_dashboard_common_app.views.common import ajax as common_ajax
 from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.commons.exceptions import DoesNotExist, NotUniqueError
@@ -617,6 +623,191 @@ class TestDeleteQuery(TestCase):
         mock_get_query.return_value = ["mock_query" for _ in range(3)]
         mock_persistent_query_api.delete.return_value = None
         response = common_ajax._delete_query(**self.kwargs)
+
+        self.assertIsInstance(response, HttpResponse)
+
+
+class TestDeleteDocument(TestCase):
+    """Unit tests for delete_document view"""
+
+    def setUp(self) -> None:
+        """setUp"""
+        mock_request = MockRequest()
+        mock_request.user = create_mock_user(1)
+        mock_request.POST = MagicMock()
+        mock_request.POST.__getitem__ = Mock(
+            return_value=constants.FUNCTIONAL_OBJECT_ENUM.RECORD.name
+        )
+
+        self.mock_document_id_list = ["1"]
+        mock_request.POST.getlist.return_value = self.mock_document_id_list
+        self.kwargs = {"request": mock_request}
+
+    def test_multiple_document_ids_non_superuser_returns_http_server_error(
+        self,
+    ):
+        """test_multiple_document_ids_non_superuser_returns_http_server_error"""
+        self.kwargs["request"].POST.getlist.return_value = ["1", "2"]
+        response = common_ajax.delete_document(**self.kwargs)
+
+        self.assertIsInstance(response, HttpResponseServerError)
+
+    @patch.object(common_ajax, "_delete_record")
+    def test_record_document_calls_delete_record(self, mock_delete_record):
+        """test_record_document_calls_delete_record"""
+        common_ajax.delete_document(**self.kwargs)
+
+        mock_delete_record.assert_called_with(
+            self.kwargs["request"], self.mock_document_id_list
+        )
+
+    @patch.object(common_ajax, "_delete_form")
+    def test_form_document_calls_delete_form(self, mock_delete_form):
+        """test_form_document_calls_delete_form"""
+        self.kwargs["request"].POST.__getitem__ = Mock(
+            return_value=constants.FUNCTIONAL_OBJECT_ENUM.FORM.name
+        )
+        common_ajax.delete_document(**self.kwargs)
+
+        mock_delete_form.assert_called_with(
+            self.kwargs["request"], self.mock_document_id_list
+        )
+
+    @patch.object(common_ajax, "_delete_file")
+    def test_file_document_calls_delete_file(self, mock_delete_file):
+        """test_file_document_calls_delete_file"""
+        self.kwargs["request"].POST.__getitem__ = Mock(
+            return_value=constants.FUNCTIONAL_OBJECT_ENUM.FILE.name
+        )
+        common_ajax.delete_document(**self.kwargs)
+
+        mock_delete_file.assert_called_with(
+            self.kwargs["request"], self.mock_document_id_list
+        )
+
+    @patch.object(common_ajax, "_delete_query")
+    def test_query_document_calls_delete_query(self, mock_delete_query):
+        """test_query_document_calls_delete_query"""
+        self.kwargs["request"].POST.__getitem__ = Mock(
+            return_value=constants.FUNCTIONAL_OBJECT_ENUM.QUERY.name
+        )
+        common_ajax.delete_document(**self.kwargs)
+
+        mock_delete_query.assert_called_with(
+            self.kwargs["request"], self.mock_document_id_list
+        )
+
+    @patch.object(common_ajax, "_delete_workspace")
+    def test_workspace_document_calls_delete_workspace(
+        self, mock_delete_workspace
+    ):
+        """test_workspace_document_calls_delete_workspace"""
+        self.kwargs["request"].POST.__getitem__ = Mock(
+            return_value=constants.FUNCTIONAL_OBJECT_ENUM.WORKSPACE.name
+        )
+        common_ajax.delete_document(**self.kwargs)
+
+        mock_delete_workspace.assert_called_with(
+            self.kwargs["request"], self.mock_document_id_list
+        )
+
+    def test_unknown_document_type_returns_http_bad_request(self):
+        """test_unknown_document_type_returns_http_bad_request"""
+        self.kwargs["request"].POST.__getitem__ = Mock(
+            return_value="unknown_type"
+        )
+        response = common_ajax.delete_document(**self.kwargs)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+
+
+class TestChangeOwnerDocument(TestCase):
+    """Unit tests for change_owner_document view"""
+
+    def setUp(self) -> None:
+        """setUp"""
+        mock_request = MockRequest()
+        mock_request.user = create_mock_user(1)
+
+        mock_request_data = {
+            "document_id[]": ["1"],
+            "user_id": "1",
+            "functional_object": None,
+        }
+
+        mock_request.POST = QueryDict(mutable=True)
+        mock_request.POST.update(mock_request_data)
+        mock_request.POST._mutable = False
+
+        self.kwargs = {"request": mock_request}
+
+    def test_missing_post_params_returns_http_bad_request(self):
+        """test_missing_post_params_returns_http_bad_request"""
+        self.kwargs["request"].POST = QueryDict(mutable=False)  # noqa
+        response = common_ajax.change_owner_document(**self.kwargs)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+
+    def test_multiple_document_ids_non_superuser_returns_http_server_error(
+        self,
+    ):
+        """test_multiple_document_ids_non_superuser_returns_http_server_error"""
+        self.kwargs["request"].POST._mutable = True
+        self.kwargs["request"].POST.setlist("document_id[]", ["1", "2"])
+        self.kwargs["request"].POST._mutable = False
+        response = common_ajax.change_owner_document(**self.kwargs)
+
+        self.assertIsInstance(response, HttpResponseServerError)
+
+    @patch.object(common_ajax, "_change_owner_record")
+    def test_record_document_calls_change_owner_record(
+        self, mock_change_owner_record
+    ):
+        """test_record_document_calls_change_owner_record"""
+        self.kwargs["request"].POST._mutable = True
+        self.kwargs["request"].POST[
+            "functional_object"
+        ] = constants.FUNCTIONAL_OBJECT_ENUM.RECORD.name
+        self.kwargs["request"].POST._mutable = False
+        common_ajax.change_owner_document(**self.kwargs)
+
+        self.assertTrue(mock_change_owner_record.called)
+
+    @patch.object(common_ajax, "_change_owner_form")
+    def test_form_document_calls_change_owner_form(
+        self, mock_change_owner_form
+    ):
+        """test_form_document_calls_change_owner_form"""
+        self.kwargs["request"].POST._mutable = True
+        self.kwargs["request"].POST[
+            "functional_object"
+        ] = constants.FUNCTIONAL_OBJECT_ENUM.FORM.name
+        self.kwargs["request"].POST._mutable = False
+        common_ajax.change_owner_document(**self.kwargs)
+
+        self.assertTrue(mock_change_owner_form.called)
+
+    @patch.object(common_ajax, "_change_owner_file")
+    def test_file_document_calls_change_owner_file(
+        self, mock_change_owner_file
+    ):
+        """test_file_document_calls_change_owner_file"""
+
+        self.kwargs["request"].POST._mutable = True
+        self.kwargs["request"].POST[
+            "functional_object"
+        ] = constants.FUNCTIONAL_OBJECT_ENUM.FILE.name
+        self.kwargs["request"].POST._mutable = False
+        common_ajax.change_owner_document(**self.kwargs)
+
+        self.assertTrue(mock_change_owner_file.called)
+
+    def test_unknown_document_type_returns_http_response(self):
+        """test_unknown_document_type_returns_http_response"""
+        self.kwargs["request"].POST._mutable = True
+        self.kwargs["request"].POST["functional_object"] = "n/a"
+        self.kwargs["request"].POST._mutable = False
+        response = common_ajax.change_owner_document(**self.kwargs)
 
         self.assertIsInstance(response, HttpResponse)
 

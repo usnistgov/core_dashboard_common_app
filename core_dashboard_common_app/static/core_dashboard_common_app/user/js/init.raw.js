@@ -1,2 +1,2 @@
-var functional_object = "{{data.document}}";
-var menu = '{{data.menu}}' == "True";
+var functional_object = "{{data.document_type}}";
+var menu = "{{data.menu}}" === "True";

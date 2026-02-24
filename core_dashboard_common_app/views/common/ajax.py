@@ -1,5 +1,4 @@
-""" Ajax API
-"""
+"""Ajax API"""
 
 import json
 
@@ -237,15 +236,15 @@ def delete_document(request):
             {"You don't have the rights to perform this action."}, status=403
         )
 
-    if document == constants.FUNCTIONAL_OBJECT_ENUM.RECORD.value:
+    if document == constants.FUNCTIONAL_OBJECT_ENUM.RECORD.name:
         return _delete_record(request, document_ids)
-    if document == constants.FUNCTIONAL_OBJECT_ENUM.FORM.value:
+    if document == constants.FUNCTIONAL_OBJECT_ENUM.FORM.name:
         return _delete_form(request, document_ids)
-    if document == constants.FUNCTIONAL_OBJECT_ENUM.FILE.value:
+    if document == constants.FUNCTIONAL_OBJECT_ENUM.FILE.name:
         return _delete_file(request, document_ids)
-    if document == constants.FUNCTIONAL_OBJECT_ENUM.QUERY.value:
+    if document == constants.FUNCTIONAL_OBJECT_ENUM.QUERY.name:
         return _delete_query(request, document_ids)
-    if document == constants.FUNCTIONAL_OBJECT_ENUM.WORKSPACE.value:
+    if document == constants.FUNCTIONAL_OBJECT_ENUM.WORKSPACE.name:
         return _delete_workspace(request, document_ids)
 
     return HttpResponseBadRequest(
@@ -452,32 +451,31 @@ def change_owner_document(request):
     Returns:
     """
 
-    if (
+    if not (
         "document_id[]" in request.POST
         and "user_id" in request.POST
         and "functional_object" in request.POST
     ):
-        document = request.POST["functional_object"]
-        user_id = request.POST["user_id"]
-
-        document_ids = request.POST.getlist("document_id[]", [])
-        if len(document_ids) > 1 and not request.user.is_superuser:
-            return HttpResponseServerError(
-                {"You don't have the rights to perform this action."},
-                status=403,
-            )
-
-        if document == constants.FUNCTIONAL_OBJECT_ENUM.RECORD.value:
-            return _change_owner_record(request, document_ids, user_id)
-        if document == constants.FUNCTIONAL_OBJECT_ENUM.FORM.value:
-            return _change_owner_form(request, document_ids, user_id)
-        if document == constants.FUNCTIONAL_OBJECT_ENUM.FILE.value:
-            return _change_owner_file(request, document_ids, user_id)
-
-    else:
         return HttpResponseBadRequest(
             {"Bad entries. Please check the parameters."}
         )
+
+    document = request.POST["functional_object"]
+    user_id = request.POST["user_id"]
+
+    document_ids = request.POST.getlist("document_id[]", [])
+    if len(document_ids) > 1 and not request.user.is_superuser:
+        return HttpResponseServerError(
+            {"You don't have the rights to perform this action."},
+            status=403,
+        )
+
+    if document == constants.FUNCTIONAL_OBJECT_ENUM.RECORD.name:
+        return _change_owner_record(request, document_ids, user_id)
+    if document == constants.FUNCTIONAL_OBJECT_ENUM.FORM.name:
+        return _change_owner_form(request, document_ids, user_id)
+    if document == constants.FUNCTIONAL_OBJECT_ENUM.FILE.name:
+        return _change_owner_file(request, document_ids, user_id)
 
     return HttpResponse(json.dumps({}), content_type="application/javascript")
 

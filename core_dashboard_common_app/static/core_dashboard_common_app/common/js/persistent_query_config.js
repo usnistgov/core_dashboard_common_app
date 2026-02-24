@@ -1,22 +1,24 @@
 /**
  * Load controllers for the persistent query button
  */
+let persistent_query_id;
+let persistent_query_name;
 
 $(document).ready(function() {
-    var persistent_query_id = null;
-    var persistent_query_name = null;
+    persistent_query_id = null;
+    persistent_query_name = null;
     $('.share-btn').on('click', getDocumentId);
     initSharingModal(
-        configurePersistentQueryModal, "#persistent-query", "#persistent-query-modal",
-        "#persistent-query-link", "#persistent-query-submit"
-
+        configurePersistentQueryModal,
+        "#persistent-query",
+        "#persistent-query-modal",
+        "#persistent-query-link",
+        "#persistent-query-submit"
     );
 });
 
 
-
 let configurePersistentQueryModal = function() {
-
     // get persistent query class name
     var tab_name = $('.nav-tabs .active').attr("title")
 
@@ -25,15 +27,13 @@ let configurePersistentQueryModal = function() {
 
     var suffixUrl = null
 
-    if (persistent_query_name != ''){
+    if (persistent_query_name !== "") {
        suffixUrl = "results-redirect?name="+persistent_query_name;
+    } else {
+        suffixUrl = "results-redirect?id=" + persistent_query_id;
     }
-    else  suffixUrl ="results-redirect?id="+persistent_query_id;
 
-    // make the redirect url
-    var redirect_url = window.origin+query_path+suffixUrl;
-
-    $("#persistent-query-link").val(redirect_url);
+    $("#persistent-query-link").val(window.origin + query_path + suffixUrl);
     $("#rename_tools").hide();
     return true;
 }
@@ -44,5 +44,4 @@ let getDocumentId = function () {
     persistent_query_id = $(this).closest('button').attr("objectid");
     // get query name
     persistent_query_name = $.trim($(this).closest('tr').find('.persistent-query-name').val())
-   }
-
+}

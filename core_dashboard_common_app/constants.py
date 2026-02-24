@@ -1,5 +1,5 @@
 """
-    User Dashboard constants
+User Dashboard constants
 """
 
 from enum import Enum
@@ -59,7 +59,6 @@ JS_COMMON = [
     {"path": "core_dashboard_common_app/user/js/init.js", "is_raw": False},
 ]
 
-JS_INIT_USER = "core_dashboard_common_app/user/js/init_user.js"
 JS_USER_SELECTED_ELEMENT = (
     "core_dashboard_common_app/user/js/get_selected_document.js"
 )
@@ -82,7 +81,7 @@ JS_ADMIN_RESET_CHECKBOX = (
     "core_dashboard_common_app/admin/js/reset_checkbox.js"
 )
 JS_ADMIN_SELECT_ALL = "core_dashboard_common_app/admin/js/select_all.js"
-JS_ADMIN_SELETED_ELEMENT = (
+JS_ADMIN_SELECTED_ELEMENT = (
     "core_dashboard_common_app/admin/js/get_selected_document_admin.js"
 )
 JS_ADMIN_INIT_MENU = "core_dashboard_common_app/admin/js/init_admin_menu.js"

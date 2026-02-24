@@ -1,7 +1,7 @@
 {% extends "core_main_app/_render/admin/theme/tools/section.html" %}
 {% load special_plural %}
 
-{% block section_title %} {{data.document|title|special_plural}} {% endblock %}
+{% block section_title %} {{data.document_name|title|special_plural}} {% endblock %}
 
 {% block section_content %}
 <div class="row">

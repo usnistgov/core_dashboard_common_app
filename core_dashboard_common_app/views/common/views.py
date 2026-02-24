@@ -1,5 +1,4 @@
-""" Common views
-"""
+"""Common views"""
 
 import copy
 import math
@@ -207,7 +206,8 @@ class DashboardRecords(CommonView):
     data_template = (
         dashboard_constants.DASHBOARD_RECORDS_TEMPLATE_TABLE_PAGINATION
     )
-    document = dashboard_constants.FUNCTIONAL_OBJECT_ENUM.RECORD.value
+    document_type = dashboard_constants.FUNCTIONAL_OBJECT_ENUM.RECORD.name
+    document_name = dashboard_constants.FUNCTIONAL_OBJECT_ENUM.RECORD.value
     allow_change_workspace_if_public = True
 
     def get(self, request, *args, **kwargs):
@@ -253,7 +253,8 @@ class DashboardRecords(CommonView):
             "number_total": loaded_data.count(),
             "user_data": results_paginator,
             "user_form": user_form,
-            "document": self.document,
+            "document_type": self.document_type,
+            "document_name": self.document_name,
             "template": self.data_template,
             "action_form": ActionForm(
                 [
@@ -439,7 +440,7 @@ class DashboardRecords(CommonView):
             )
             assets["js"].append(
                 {
-                    "path": dashboard_constants.JS_ADMIN_SELETED_ELEMENT,
+                    "path": dashboard_constants.JS_ADMIN_SELECTED_ELEMENT,
                     "is_raw": False,
                 }
             )
@@ -528,7 +529,8 @@ class DashboardFiles(CommonView):
             "number_total": files.count(),
             "user_data": detailed_file,
             "user_form": user_form,
-            "document": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.FILE.value,
+            "document_type": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.FILE.name,
+            "document_name": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.FILE.value,
             "template": dashboard_constants.DASHBOARD_FILES_TEMPLATE_TABLE,
             "menu": self.administration,
             "file_upload_form": file_upload_form,
@@ -678,7 +680,7 @@ class DashboardFiles(CommonView):
             )
             assets["js"].append(
                 {
-                    "path": dashboard_constants.JS_ADMIN_SELETED_ELEMENT,
+                    "path": dashboard_constants.JS_ADMIN_SELECTED_ELEMENT,
                     "is_raw": False,
                 }
             )
@@ -705,7 +707,8 @@ class DashboardForms(CommonView):
     """List the forms."""
 
     template = dashboard_constants.DASHBOARD_TEMPLATE
-    document = dashboard_constants.FUNCTIONAL_OBJECT_ENUM.FORM.value
+    document_type = dashboard_constants.FUNCTIONAL_OBJECT_ENUM.FORM.name
+    document_name = dashboard_constants.FUNCTIONAL_OBJECT_ENUM.FORM.value
 
     def get(self, request, *args, **kwargs):
         """Method GET
@@ -746,7 +749,8 @@ class DashboardForms(CommonView):
             "number_total": forms.count(),
             "user_data": detailed_forms,
             "user_form": UserForm(request.user),
-            "document": self.document,
+            "document_type": self.document_type,
+            "document_name": self.document_name,
             "template": dashboard_constants.DASHBOARD_FORMS_TEMPLATE_TABLE,
             "menu": self.administration,
             "pagination": _get_pagination_document(
@@ -833,7 +837,7 @@ class DashboardForms(CommonView):
                         "is_raw": True,
                     },
                     {
-                        "path": dashboard_constants.JS_ADMIN_SELETED_ELEMENT,
+                        "path": dashboard_constants.JS_ADMIN_SELECTED_ELEMENT,
                         "is_raw": False,
                     },
                     {
@@ -922,8 +926,8 @@ class DashboardTemplates(CommonView):
                 "number_total": len(detailed_templates),
                 "user_data": detailed_templates,
                 "user_form": UserForm(request.user),
-                "document": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.TEMPLATE.value,
-                "object_name": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.TEMPLATE.value,
+                "document_type": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.TEMPLATE.name,
+                "document_name": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.TEMPLATE.value,
                 "template": dashboard_constants.DASHBOARD_TEMPLATES_TEMPLATE_TABLE,
                 "menu": False,
             }
@@ -1036,8 +1040,8 @@ class DashboardTypes(CommonView):
             context = {
                 "number_total": len(detailed_types),
                 "user_form": UserForm(request.user),
-                "document": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.TYPE.value,
-                "object_name": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.TYPE.value,
+                "document_type": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.TYPE.name,
+                "document_name": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.TYPE.value,
                 "template": dashboard_constants.DASHBOARD_TYPES_TEMPLATE_TABLE,
                 "menu": False,
                 "user_data": detailed_types,
@@ -1156,7 +1160,8 @@ class DashboardWorkspaces(CommonView):
             "number_total": user_workspaces_count,
             "workspace_form": WorkspaceForm(),
             "user_data": detailed_user_workspaces,
-            "document": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.WORKSPACE.value,
+            "document_type": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.WORKSPACE.name,
+            "document_name": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.WORKSPACE.value,
             "template": dashboard_constants.DASHBOARD_WORKSPACES_TEMPLATE_TABLE,
             "create_workspace": not self.administration,
             "can_set_public": settings.CAN_SET_WORKSPACE_PUBLIC,
@@ -1273,7 +1278,8 @@ class DashboardWorkspaceRecords(CommonView):
             "number_total": workspace_data.count(),
             "user_data": results_paginator,
             "user_form": user_form,
-            "document": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.RECORD.value,
+            "document_type": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.RECORD.name,
+            "document_name": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.RECORD.value,
             "template": self.data_template,
             "administration": self.administration,
             "username_list": get_id_username_dict(user_api.get_all_users()),
@@ -1424,7 +1430,7 @@ class DashboardWorkspaceRecords(CommonView):
             )
             assets["js"].append(
                 {
-                    "path": dashboard_constants.JS_ADMIN_SELETED_ELEMENT,
+                    "path": dashboard_constants.JS_ADMIN_SELECTED_ELEMENT,
                     "is_raw": False,
                 }
             )
@@ -1523,7 +1529,8 @@ class DashboardQueries(CommonView):
             "administration": self.administration,
             "number_total": items_to_render.count(),
             "user_data": detailed_query,
-            "document": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.QUERY.value,
+            "document_type": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.QUERY.name,
+            "document_name": dashboard_constants.FUNCTIONAL_OBJECT_ENUM.QUERY.value,
             "template": self.data_template,
             "type": query_type,
             "url_path": url_path,
@@ -1637,7 +1644,7 @@ class DashboardQueries(CommonView):
             )
             assets["js"].append(
                 {
-                    "path": dashboard_constants.JS_ADMIN_SELETED_ELEMENT,
+                    "path": dashboard_constants.JS_ADMIN_SELECTED_ELEMENT,
                     "is_raw": False,
                 }
             )
