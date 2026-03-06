@@ -1,5 +1,5 @@
-core-explore-common-app==2.20.*
-core-dashboard-app==2.20.*
-core-parser-app==2.20.*
-core-curate-app==2.20.*
-core-file-preview-app==2.20.*
+core-explore-common-app==2.21.*
+core-dashboard-app==2.21.*
+core-parser-app==2.21.*
+core-curate-app==2.21.*
+core-file-preview-app==2.21.*
