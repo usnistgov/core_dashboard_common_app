@@ -1,4 +1,4 @@
-""" Core dashboard tag to pluralize labels
+"""Core dashboard tag to pluralize labels
 FIXME: temporary solution, need to update the template and constant system to deal with singular/plural
 """
 

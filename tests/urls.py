@@ -1,5 +1,5 @@
 """
-    Url router for the dashboard common
+Url router for the dashboard common
 """
 
 from django.conf.urls import include

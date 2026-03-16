@@ -1,5 +1,4 @@
-""" Setup core dashboard common app
-"""
+"""Setup core dashboard common app"""
 
 from os import chdir, pardir
 from os.path import join, exists, dirname, normpath, abspath
