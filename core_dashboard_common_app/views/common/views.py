@@ -384,6 +384,10 @@ class DashboardRecords(CommonView):
                     "is_raw": True,
                 },
                 {
+                    "path": "core_dashboard_common_app/common/js/list/delete_data_draft_utils.js",
+                    "is_raw": False,
+                },
+                {
                     "path": "core_dashboard_common_app/common/js/list/delete_data_draft.js",
                     "is_raw": False,
                 },
@@ -1388,6 +1392,10 @@ class DashboardWorkspaceRecords(CommonView):
                 {
                     "path": "core_dashboard_common_app/common/js/list/open_record.raw.js",
                     "is_raw": True,
+                },
+                {
+                    "path": "core_dashboard_common_app/common/js/list/delete_data_draft_utils.js",
+                    "is_raw": False,
                 },
                 {
                     "path": "core_dashboard_common_app/common/js/list/delete_data_draft.js",

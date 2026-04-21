@@ -1,16 +1,4 @@
 /**
- * Strip the trailing ", Draft" label from a table row's name cell.
- *
- * @param {jQuery} recordRow - The <tr> element containing the record.
- * @param {number} columnIdx - Zero-based index of the name cell within the row.
- */
-const removeDraftStatus = function(recordRow, columnIdx) {
-    const $recordNameCol = recordRow.children("td").eq(columnIdx);
-    const filename = $recordNameCol.text().replace(/,\s*Draft\s*$/i, "").trim();
-    $recordNameCol.text(filename);
-};
-
-/**
  * Send a DELETE request and return the jQuery XHR deferred.
  *
  * @param {string} deleteUrl - URL for the DELETE endpoint.
@@ -34,17 +22,13 @@ const deleteDraft = function(deleteUrl) {
  */
 $(".delete-draft-btn, .delete-data-draft-list-btn").on("click", function() {
     const $btn = $(this);
-    const $recordRow = $btn.parents("tr");
     const objectId = $btn.attr("objectid");
-    const isDraftList = $btn.hasClass("delete-data-draft-list-btn");
-
-    // Admin view has a checkbox column, shifting the name to index 1.
-    const columnIdx = isDraftList ? 1 : 0;
-    const deleteUrl = isDraftList
+    const isAdminView = $btn.hasClass("delete-data-draft-list-btn");
+    const deleteUrl = isAdminView
         ? deleteRecordDraftListUrl.replace("pk", objectId)
         : deleteRecordDraftUrl.replace("pk", objectId);
 
-    removeDraftStatus($recordRow, columnIdx);
+    removeDraftStatus($btn, isAdminView);
     $btn.remove();
 
     deleteDraft(deleteUrl)
